@@ -35,10 +35,10 @@ export default function Index() {
 
 
 
-  const handleAnswer = (value: boolean) => {
-    setSelectedAnswer(value);
+  const handleAnswer = (answer: boolean) => {
+    setSelectedAnswer(answer);
 
-    if (value === questions[currentQuestion].answer) {
+    if (answer === questions[currentQuestion].answer) {
       Alert.alert("Correct!");
       if (currentQuestion < questions.length - 1){
         handleNext();
