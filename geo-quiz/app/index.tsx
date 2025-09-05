@@ -20,7 +20,7 @@ export default function Index() {
   const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
   const [orientation, setOrientation] = useState(null);
 
-
+//Still a bit confused on this useEffect and unlockAsync()
   useEffect(() => {
     console.log("Screen Loaded");
     unlockAsync();
@@ -84,8 +84,7 @@ export default function Index() {
       <View style={styles.buttonContainer}>
         <Pressable 
           style={[styles.answerButton, selectedAnswer === true && styles.selectedButton]} 
-          onPress={() => handleAnswer(true)}
-        >
+          onPress={() => handleAnswer(true)} >
           <Text style={styles.buttonText}>TRUE</Text>
         </Pressable>
         
@@ -93,8 +92,7 @@ export default function Index() {
 
         <Pressable 
           style={[styles.answerButton, selectedAnswer === false && styles.selectedButton]} 
-          onPress={() => handleAnswer(false)}
-        >
+          onPress={() => handleAnswer(false)} >
           <Text style={styles.buttonText}>FALSE</Text>
         </Pressable>
       </View>
@@ -125,6 +123,7 @@ export default function Index() {
           CHEAT
         </Link>
       </View>
+
 
     </View>
   );

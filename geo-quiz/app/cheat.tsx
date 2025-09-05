@@ -10,7 +10,6 @@ export default function Cheat() {
       <View style={styles.container}>
         <Text style={styles.text}>Are you sure you want to do this?</Text>
         <Button title="Show Answer" onPress={() => Alert.alert(`The answer is ${answer}`)} />
-
       </View>
     );
   }

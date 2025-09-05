@@ -5,20 +5,17 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen 
         name="index" 
-        options={{ 
-          title: 'GeoQuiz',
+        options={{ title: 'GeoQuiz',
           headerStyle: { backgroundColor: '#885eeb' },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
-        }} 
-      />
+        }} />
 
       <Stack.Screen
-        name="cheat" options={{ title: 'Cheat'
-        , headerStyle: { backgroundColor: '#885eeb' },
+        name="cheat" options={{ title: 'Cheat',
+        headerStyle: { backgroundColor: '#885eeb' },
         headerTintColor: '#fff',
-        }}
-      /> 
+        }} /> 
     </Stack>
     
   );
