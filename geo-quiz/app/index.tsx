@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Pressable, Alert } from "react-native";
 import { useState, useEffect } from "react";
-import { Link } from 'expo-router';
-import { unlockAsync, addOrientationChangeListener, Orientation } from 'expo-screen-orientation';
+import { unlockAsync, addOrientationChangeListener, removeOrientationChangeListener, Orientation } from 'expo-screen-orientation';
+import CheatButton from "../components/CheatButton";
 
 
 
@@ -29,9 +29,11 @@ export default function Index() {
       setOrientation(event.orientationInfo.orientation);
       console.log(Orientation.PORTRAIT_UP === event.orientationInfo.orientation);
     });
-
-    setSelectedAnswer(null);
-  }, [currentQuestion]);
+    return () => {
+      console.log("Screen Unloaded");
+      removeOrientationChangeListener(subscription);
+    };
+  }, []);
 
 
 
@@ -56,13 +58,19 @@ export default function Index() {
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setCurrentQuestion(0);
     }
+    setSelectedAnswer(null);
   };
 
   const handlePrev = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
+    } else {
+      setCurrentQuestion(questions.length - 1);
     }
+    setSelectedAnswer(null);
   };
 
 
@@ -115,13 +123,9 @@ export default function Index() {
       </View>
 
 
-
+      {/* made a cheat button component   */}
       <View style={styles.cheatContainer}>
-        <Link 
-          href={{ pathname: "/cheat", params: { answer: String(questions[currentQuestion].answer) } }} 
-          style={styles.cheatLink}>
-          CHEAT
-        </Link>
+        <CheatButton answer={questions[currentQuestion].answer} />
       </View>
 
 
