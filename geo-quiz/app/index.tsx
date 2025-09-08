@@ -2,6 +2,8 @@ import { Text, View, StyleSheet, Pressable, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import { unlockAsync, addOrientationChangeListener, removeOrientationChangeListener, Orientation } from 'expo-screen-orientation';
 import CheatButton from "../components/CheatButton";
+import Entypo from '@expo/vector-icons/Entypo';
+
 
 
 
@@ -13,6 +15,7 @@ const questions = [
   { question: "London is the capital of England.", answer: true },
 ];
 
+
 export default function Index() {
   //useState is for anytime the screen is rendered
   //useEffect is for anytime the screen is loaded only use when you need to re-establish a connection
@@ -20,21 +23,24 @@ export default function Index() {
   const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
   const [orientation, setOrientation] = useState(null);
 
-//Still a bit confused on this useEffect and unlockAsync()
+
   useEffect(() => {
-    console.log("Screen Loaded");
     unlockAsync();
 
     const subscription = addOrientationChangeListener((event) => {
       setOrientation(event.orientationInfo.orientation);
-      console.log(Orientation.PORTRAIT_UP === event.orientationInfo.orientation);
     });
     return () => {
-      console.log("Screen Unloaded");
       removeOrientationChangeListener(subscription);
     };
   }, []);
 
+
+
+  const currentStyle =
+  orientation === Orientation.LANDSCAPE_LEFT || orientation === Orientation.LANDSCAPE_RIGHT
+    ? styles.landscapeContainer
+    : styles.portraitContainer;
 
 
   const handleAnswer = (answer: boolean) => {
@@ -91,7 +97,7 @@ export default function Index() {
 
       <View style={styles.buttonContainer}>
         <Pressable 
-          style={[styles.answerButton, selectedAnswer === true && styles.selectedButton]} 
+          style={[styles.answerButton, currentStyle, selectedAnswer === true && styles.selectedButton]} 
           onPress={() => handleAnswer(true)} >
           <Text style={styles.buttonText}>TRUE</Text>
         </Pressable>
@@ -99,7 +105,7 @@ export default function Index() {
 
 
         <Pressable 
-          style={[styles.answerButton, selectedAnswer === false && styles.selectedButton]} 
+          style={[styles.answerButton, currentStyle, selectedAnswer === false && styles.selectedButton]} 
           onPress={() => handleAnswer(false)} >
           <Text style={styles.buttonText}>FALSE</Text>
         </Pressable>
@@ -109,16 +115,18 @@ export default function Index() {
 
       <View style={styles.navigationContainer}>
         <Pressable 
-          style={[styles.navButton]} 
+          style={[styles.navButton, currentStyle]} 
           onPress={handlePrev}>
-          <Text style={styles.navButtonText}>◀ PREV</Text>
+          <Entypo name="chevron-left" size={24} color="white" />
+          <Text style={styles.navButtonText}>PREV</Text>
         </Pressable>
         
 
         <Pressable 
-          style={[styles.navButton]} 
+          style={[styles.navButton, currentStyle]} 
           onPress={handleNext}>
-          <Text style={styles.navButtonText}>NEXT ▶</Text>
+          <Text style={styles.navButtonText}>NEXT</Text>
+          <Entypo name="chevron-right" size={24} color="white" />
         </Pressable>
       </View>
 
@@ -177,10 +185,13 @@ const styles = StyleSheet.create({
   },
   navButton: {
     flex: 1,
-    backgroundColor: '#6f1ff0',
-    paddingVertical: 15,
+    flexDirection: "row",      
+    alignItems: "center",      
+    justifyContent: "center", 
+    paddingVertical: 12,
     marginHorizontal: 5,
     borderRadius: 5,
+    backgroundColor: "#6f1ff0", 
   },
   navButtonText: {
     color: 'white',
@@ -203,5 +214,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#885eeb'
-  }
+  },
+  landscapeContainer: {
+    backgroundColor: "#FF10F0",
+  },
+  portraitContainer: {
+    backgroundColor: "#6f1ff0", 
+  },
+  
 });
